@@ -1,6 +1,8 @@
 package br.com.fiap.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
@@ -8,6 +10,8 @@ import javax.persistence.SequenceGenerator;
 @SequenceGenerator(name="frase", sequenceName="SEQ_FRASE", allocationSize=1)
 public class Frase {
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,
+	generator="frase")
 	private int id;
 	private String frase;
 	private String autor;

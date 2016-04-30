@@ -1,5 +1,6 @@
 package br.com.fiap.dao.impl;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.persistence.EntityManager;
@@ -9,7 +10,7 @@ import javax.persistence.TypedQuery;
 import br.com.fiap.dao.FraseDAO;
 import br.com.fiap.entity.Frase;
 
-public class FraseDAOImpl extends GenericDAOImpl<Frase, Integer> implements FraseDAO{
+public class FraseDAOImpl extends GenericDAOImpl<Frase, Integer> implements FraseDAO {
 
 	public FraseDAOImpl(EntityManager em) {
 		super(em);
@@ -17,20 +18,28 @@ public class FraseDAOImpl extends GenericDAOImpl<Frase, Integer> implements Fras
 	}
 
 	@Override
-	public String getRandom() {
-		Query q = em.createNativeQuery("SELECT count(*) FROM Frase");
-		int count = (Integer)q.getSingleResult();
-		
-		
-		int num = new Random().nextInt(count);
-		
-		TypedQuery<Frase> queryResult = em.createQuery("FROM Frase f", Frase.class).setFirstResult(num).setMaxResults(1); 
-		
-		
-		
-		return queryResult.getResultList().get(0).getFrase(); 
+	public Frase getRandom() {
+
+		Query q = em.createQuery("select id from Frase");
+
+		@SuppressWarnings("unchecked")
+		List<Integer> listaDeIds = q.getResultList();
+
+		Random randomGenerator = new Random();
+		int randIndex = randomGenerator.nextInt(listaDeIds.size());
+		int idAleatorio = listaDeIds.get(randIndex);
+		Frase frase = em.find(Frase.class, idAleatorio);
+
+		return frase;
+
 	}
-	
-	
+
+	public List<Frase> getAllSentences() {
+
+		TypedQuery<Frase> q = em.createQuery("from Frase f", Frase.class);
+		List<Frase> lista = q.getResultList();
+
+		return lista;
+	}
 
 }
