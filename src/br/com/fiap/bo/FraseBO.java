@@ -9,9 +9,10 @@ import br.com.fiap.exception.DBException;
 import br.com.fiap.singleton.EntityManagerFactorySingleton;
 
 public class FraseBO {
+	
 	private FraseDAO dao;
 	
-	public String getFrase(){
+	public Frase getRandomFrase(){
 		EntityManager em = EntityManagerFactorySingleton
 				.getInstance().createEntityManager();
 		dao = new FraseDAOImpl(em);
